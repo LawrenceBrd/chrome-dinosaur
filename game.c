@@ -8,7 +8,12 @@
 #include "appearance.h"
 #include "minunit.h"
 
-// Check if the game is going to be finished in this turn of loop
+/**
+\file game.c
+\version 1.1
+\date 2023-01-24
+*/
+
 int checkGame(int y, int x, int diY, int diX) {
 	if (diY == y) {
 		if (abs((diX+14)-x) <= 4) {
@@ -18,7 +23,17 @@ int checkGame(int y, int x, int diY, int diX) {
 	return 1;
 }
 
-// Make game faster
+/**
+\fn int checkGame(int y, int x, int diY, int diX)
+\brief Funzione che controlla se il gioco deve continuare 
+\param int y: 
+\param int x:
+\param int diY:
+\param int diX: 
+\return 0: Il gioco si interrompe
+\return 1: Il gioco deve continuare
+*/
+
 int computeTime(int delayTime) {
 	if (delayTime >= 250000) {
 		delayTime -= 1000;
@@ -32,20 +47,35 @@ int computeTime(int delayTime) {
 	return delayTime;
 }
 
-// Which dinosaur should be printed
+/**
+\fn int computeTime(int delayTime)
+\brief Funzione che incrementa la velocita' in base a quanto si va avanti
+\param delayTime : Valoe di delay attuale passato dal main
+\return  delayTime : Delay diminuito ogni volta chiamata funzione  
+*/
+
 void showdinosaur(int diY, int diX) {
 	static int counter = 0;
 	if (counter == 0) {
 		dinosaur1(diY, diX);
 		counter++;
+		///\brief se il contatore e' pari a 0, il dinosauro verra' stampato nella sua posizione principale
 	}
 	else {
 		dinosaur2(diY, diX);
 		counter--;
+		///\brief se dovesse essere maggiore di 0 o minore, verra' stampato nella sua seconda posizione in corsa
 	}
 }
 
-// Give user the prize
+/**
+\fn void showdinosaur(int diY, int diX)
+\brief Procedura che sceglie in quale posizione stampare il dinosauro
+\param diY : Parametro per l'altezza (se il dinosauro salta o meno)
+\param diX : Parametro dello spostamento in orizzontale del dinosauro
+*/
+
+
 int computePrize(int score, int usedPrize) {
 	if (score >= 20 && score <= 40 && usedPrize == 0) {
 		return 1;
@@ -55,11 +85,23 @@ int computePrize(int score, int usedPrize) {
 	}
 	else if (score >= 100 && score <= 120 && usedPrize <= 2) {
 		return 1;
-	}	
+	}
+	///\brief Se lo score e il prize sono compresi entro certi valori, ritornera' 1 e permettera' l'incremento dello score del gioco	
 	return 0;
+	///\brief Se non dovessero soddisfare i requisiti, ritorna 0 e non esegue l'incremento e l'aumento del prize
 }
 
-// The main engine!
+/**
+\fn int computePrize(int score, int usedPrize)
+\brief Funzione che tiene conto del punteggio del giocatore
+\param score : Contatore del punteggio del giocatore 
+\param usedPrize : Variabile da incrementare in base allo score usata per distruggere i cactus
+\return 0 : Se i requisiti degli if non vengono soddisfatti, restituito 0
+\return 1 : Se li soddisfano, restituito 1 e incrementato lo score
+\bug Determinate volte, il punteggio/score del giocatore non viene incrementato e/o delle volte si interrompe nel suo conteggio dei punti
+*/
+
+
 void startEngine(int highScore, struct user firstUser) {
     srand(time(NULL));
 	int x, y, diX=5, prize=0, usedPrize=0, score=0, delayTime = 300000
@@ -72,6 +114,7 @@ void startEngine(int highScore, struct user firstUser) {
 	char userInput;
 	int jumping=-1;
     bool fire=FALSE;
+    ///Tutte le variabili inizializzate utili al gioco
     clear();
 	nodelay(stdscr, TRUE);
   	init_pair(1,COLOR_WHITE,COLOR_BLACK);
@@ -80,7 +123,6 @@ void startEngine(int highScore, struct user firstUser) {
 	init_pair(6,COLOR_YELLOW,COLOR_BLACK);
 	while (gameStatus == 1) {
 		userInput = getch();
-		// Show day or night
 		if((score/50)%2 != 0) {
 			moon(10, (maxX/2)-10);
 		}
@@ -88,16 +130,17 @@ void startEngine(int highScore, struct user firstUser) {
 			attron(COLOR_PAIR(1));
 			sun(10, (maxX/2)-10);			
 		}
-		// clear arrow
+		/**
+		\brief In base al valore dello score, sceglie se viene stampata la notte o il giorno
+		*/
 		if (fire) {
 			mvprintw(arrowY, arrowX-2, " ");
 		}
 
 		score++;
-        // Show informations
 		mvprintw(1, 6, "%s %s %s", firstUser.name, firstUser.lastName, firstUser.age);
 		mvprintw(1, getmaxx(stdscr)-9, "%d:%d", highScore, score);
-		// Use prize to destroy cactus
+		///\brief Stampa le informazioni di nome, punteggio e highscore
 		prize = computePrize(score, usedPrize);
 		mvprintw(3, 6, "Prize: %d    ", prize);
 		if (prize == 1) {
@@ -117,15 +160,16 @@ void startEngine(int highScore, struct user firstUser) {
 			fire = FALSE;
 			arrowX = diX+15;
 		}
-		// ----------
+		/**
+		\brief In base al prize del giocatore vengono distrutti i cactus
+		*/
 		box(stdscr, ACS_VLINE, ACS_HLINE);
-		//for clearing screen
 		cleardinosaurUp(diY, diX);
 		if (x <= 7) {
 			x = getmaxx(stdscr)-20;
             cactusNum = rand() % 2;
 		}
-        // if input is equal to ' ' then jump
+		///\brief cancella la schermata di gioco
 		if (userInput == ' ' && jumping<0) {
 			diY -= 7;
 			jumping = 3;
@@ -147,11 +191,14 @@ void startEngine(int highScore, struct user firstUser) {
 			x += 10;
 		}
 		gameStatus = checkGame(y, x, diY, diX);
-        // Bring back dinosaur
+		/**
+		\brief Da riga 168 a 188 sono presenti gli if per far saltare il nostro dinosauro, solo se l'input del giocatore dovesse essere la barra spaziatrice
+		*/
 		jumping--;
 		if (jumping==0) {
 			diY += 7;
 		}
+		///\brief Riporta il dinosauro a terra
 		mvhline(y+1, 1, '-', getmaxx(stdscr)-3);
         refresh();
         clearCactus1(y, x);
@@ -164,22 +211,32 @@ void startEngine(int highScore, struct user firstUser) {
 
 	endGame(score, highScore, diY, diX, firstUser);
 	attroff(COLOR_PAIR(1));
+	/**
+	\brief Chiamate funzioni e opreazioni che svolgono la chiusura del gioco.
+	*/
 }
+
+/**
+\fn void startEngine(int highScore, struct user firstUser)
+\brief Procedura principale che svolge tutte le funzioni e procedure del gioco
+\param int highScore : 
+\param struct user firstUser : 
+\bug il bug principale riguarda i salti in ritardo del dinosauro se viene dato in input il carattere ' ' troppo velocemente.
+*/
+
 
 
 //
 // START of tests section
 //
 
-// sample variables to be tested
 int foo = 4;
 int bar = 5;
 
-// init tests vars
 int tests_run = 0;
 int tests_passed = 0;
+///\brief variabili globali utilizzate per i test
 
-// sample test function 1
 static char * test_foo() {
     mu_assert("error, foo != 7", foo == 7);
 }
@@ -188,6 +245,11 @@ static char * test_foo() {
 static char * test_bar() {
     mu_assert("error, bar != 5", bar == 5);
 }
+/**
+\fn static char test _ foo ()
+\fn static char * test _ bar ()
+\brief Due funzioni usate per il test di eventuali errori nella compilazione del gioco
+*/
 
 // put all tests here
 void all_tests() {
@@ -195,7 +257,6 @@ void all_tests() {
 	mu_run_test(test_bar);
 }
 
-// call this to run all tests
 int run_all_tests(int argc, char **argv) {
 	if(argc<2 || strcmp(argv[1],"-test")!=0) {
 		return -1;
@@ -208,6 +269,11 @@ int run_all_tests(int argc, char **argv) {
 	printf("Tests passed: %d\n", tests_passed);
 	return tests_run-tests_passed;
 }
-//
-// END of tests section
-//
+
+/**
+\fn int run_all_tests(int argc, char **argv)
+\brief Funzione che esegue tutti quanti i test per cercare eventuali errori
+\param int argc
+\param char **argv
+*/
+
