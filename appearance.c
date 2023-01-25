@@ -1,5 +1,13 @@
 #include <ncurses.h>
 
+/**
+
+\file appearance.c
+\version 1.1
+\date 2023-01-25
+
+*/
+
 void dinosaur1(int y, int x) {
 	mvprintw(y-4, x, "          e-e  ");
 	mvprintw(y-3, x, "        /(\\_/)");
@@ -7,6 +15,15 @@ void dinosaur1(int y, int x) {
 	mvprintw(y-1, x, " '-._, )/'");
 	mvprintw(y, x,   "      \\/");
 }
+
+/**
+
+\fn void dinosaur1(int y, int x)
+\brief Richiama tutte le funzioni utilizzate per raffigurare il dinosauro in movimento
+\param int y
+\param int x
+
+*/
 
 void dinosaur2(int y, int x) {
 	mvprintw(y-4, x, "          e-e  ");
@@ -16,6 +33,15 @@ void dinosaur2(int y, int x) {
 	mvprintw(y, x,   "      /\\");
 }
 
+/**
+
+\fn void dinosaur2(int y, int x)
+\brief Richiama tutte le funzioni utilizzate per raffigurare il dinosauro in movimento
+\param int y
+\param int x
+
+*/
+
 void cactus1(int y, int x) {
 	mvprintw(y-5, x, "    _ ");
 	mvprintw(y-4, x, " _ ( )   ");
@@ -24,6 +50,15 @@ void cactus1(int y, int x) {
 	mvprintw(y-1, x, "   |  /'");
 	mvprintw(y, x, "   | |");
 }
+
+/**
+
+\fn void cactus1(int y, int x)
+\brief Richiama tutte le funzioni utilizzate per raffigurare un tipo di cactus
+\param int y
+\param int x
+
+*/
 
 void cactus2(int y, int x) {
 	init_pair(5,COLOR_GREEN,COLOR_BLACK);
@@ -37,6 +72,15 @@ void cactus2(int y, int x) {
 	mvprintw(y, x, "   | |");
 	attroff(COLOR_PAIR(5));
 }
+
+/**
+
+\fn void cactus2(int y, int x)
+\brief Richiama tutte le funzioni utilizzate per raffigurare un tipo di cactus
+\param int y
+\param int x
+
+*/
 
 void sun(int y, int x) {
 	attron(COLOR_PAIR(6));
@@ -52,6 +96,15 @@ void sun(int y, int x) {
 	attroff(COLOR_PAIR(6));
 }
 
+/**
+
+\fn void sun(int y, int x)
+\brief Richiama tutte le funzioni utilizzate per raffigurare un tipo il sole
+\param int y
+\param int x
+
+*/
+
 void moon(int y, int x) {
 	attron(COLOR_PAIR(4));
 	mvprintw(y-8, x, "                      ");
@@ -66,6 +119,15 @@ void moon(int y, int x) {
 	attroff(COLOR_PAIR(4));
 }
 
+/**
+
+\fn void moon(int y, int x)
+\brief Richiama tutte le funzioni utilizzate per raffigurare la luna
+\param int y
+\param int x
+
+*/
+
 void showLoss(int y, int x) {
 	mvprintw(y-6, x-15, "88");
 	mvprintw(y-5, x-15, "88");
@@ -79,6 +141,15 @@ void showLoss(int y, int x) {
 	mvprintw(y+4, x-15, "Or 'q' to exit from game.");
 }
 
+/**
+
+\fn void showLoss(int y, int x)
+\brief Richiama tutte le funzioni utilizzate per raffigurare il menu dopo aver perso
+\param int y
+\param int x
+
+*/
+
 void showTrex(int x, int y) {
 	mvprintw(x-7, y-25, "  ,d");
 	mvprintw(x-6, y-25, "  88");
@@ -88,6 +159,15 @@ void showTrex(int x, int y) {
 	mvprintw(x-2, y-25, "  88,   88         \"8b,   ,aa  ,d8\" \"8b, ");
 	mvprintw(x-1, y-25, "  \"Y888 88          `\"Ybbd8\"' 8P\'     `Y8");
 }
+
+/**
+
+\fn void showTrex(int y, int x)
+\brief Richiama tutte le funzioni utilizzate per raffigurare il nome del gioco
+\param int y
+\param int x
+
+*/
 
 
 void clearCactus1(int y, int x) {
@@ -109,6 +189,15 @@ void clearCactus1(int y, int x) {
 	}
 }
 
+/**
+
+\fn void clearCactus1(int y, int x)
+\brief Richiama tutte le funzioni utilizzate per raffigurare un tipo di distruzione del cactus
+\param int y
+\param int x
+
+*/
+
 void cleardinosaurDown(int diY, int diX) {
 	mvprintw(diY+3, diX+10, "              ");
 	mvprintw(diY+4, diX+8, "              ");
@@ -117,6 +206,15 @@ void cleardinosaurDown(int diY, int diX) {
 	mvprintw(diY+7, diX, "                "); 
 }
 
+/**
+
+\fn void cleardinosaurDown(int y, int x)
+\brief Richiama tutte le funzioni utilizzate per raffigurare il dinosauro in basso
+\param int y
+\param int x
+
+*/
+
 void cleardinosaurUp(int diY, int diX) {
     mvprintw(diY-7, diX+4, "         ");
 	mvprintw(diY-8, diX+1, "               ");
@@ -124,3 +222,12 @@ void cleardinosaurUp(int diY, int diX) {
 	mvprintw(diY-10, diX, "                 ");
 	mvprintw(diY-11, diX+8, "     ");
 }
+
+/**
+
+\fn void cleardinosaurDown(int y, int x)
+\brief Richiama tutte le funzioni utilizzate per raffigurare il dinosauro in alto
+\param int y
+\param int x
+
+*/
