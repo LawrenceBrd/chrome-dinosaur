@@ -12,6 +12,7 @@ int run_all_tests(int argc, char **argv);
 
 #define mu_assert(message, test) do \
 { \
+	tests_run++; \
 	if (!(test)) \
 		printf("%s\n",message); \
 	else \
@@ -22,7 +23,6 @@ while (0)
 #define mu_run_test(test) do \
 { \
 	test(); \
-	tests_run++; \
 } \
 while (0)
 

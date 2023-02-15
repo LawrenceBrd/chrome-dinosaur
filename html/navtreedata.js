@@ -25,7 +25,8 @@
 var NAVTREE =
 [
   [ "chrome-dinosaur", "index.html", [
-    [ "Chrome Dinosaur", "md__r_e_a_d_m_e.html", null ],
+    [ "Chrome Dinosaur", "md_README.html", null ],
+    [ "Bug List", "bug.html", null ],
     [ "Data Structures", "annotated.html", [
       [ "Data Structures", "annotated.html", "annotated_dup" ],
       [ "Data Structure Index", "classes.html", null ],

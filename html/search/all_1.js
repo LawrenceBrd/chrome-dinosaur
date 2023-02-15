@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['bar_0',['bar',['../game_8c.html#a2df8914184cddeed49ac0b633472d973',1,'game.c']]]
+  ['bar_4',['bar',['../game_8c.html#a431c6c3fb7d088484ddb58b2da076e60',1,'game.c']]],
+  ['bug_20list_5',['Bug List',['../bug.html',1,'']]]
 ];

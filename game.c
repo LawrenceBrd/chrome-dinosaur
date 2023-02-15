@@ -14,6 +14,11 @@
 \date 2023-01-24
 */
 
+void all_test() {
+	
+}
+
+
 int checkGame(int y, int x, int diY, int diX) {
 	if (diY == y) {
 		if (abs((diX+14)-x) <= 4) {
@@ -223,57 +228,3 @@ void startEngine(int highScore, struct user firstUser) {
 \param struct user firstUser : 
 \bug il bug principale riguarda i salti in ritardo del dinosauro se viene dato in input il carattere ' ' troppo velocemente.
 */
-
-
-
-//
-// START of tests section
-//
-
-int foo = 4;
-int bar = 5;
-
-int tests_run = 0;
-int tests_passed = 0;
-///\brief variabili globali utilizzate per i test
-
-static char * test_foo() {
-    mu_assert("error, foo != 7", foo == 7);
-}
-
-// sample test function 2
-static char * test_bar() {
-    mu_assert("error, bar != 5", bar == 5);
-}
-/**
-\fn static char test _ foo ()
-\fn static char * test _ bar ()
-\brief Due funzioni usate per il test di eventuali errori nella compilazione del gioco
-*/
-
-// put all tests here
-void all_tests() {
-	mu_run_test(test_foo);
-	mu_run_test(test_bar);
-}
-
-int run_all_tests(int argc, char **argv) {
-	if(argc<2 || strcmp(argv[1],"-test")!=0) {
-		return -1;
-	}
-	
-	printf("--- RUNNING TESTS ---\n");
-    all_tests();
-	printf("--- SUMMARY ---\n");
-    printf("Total number of tests: %d\n", tests_run);
-	printf("Tests passed: %d\n", tests_passed);
-	return tests_run-tests_passed;
-}
-
-/**
-\fn int run_all_tests(int argc, char **argv)
-\brief Funzione che esegue tutti quanti i test per cercare eventuali errori
-\param int argc
-\param char **argv
-*/
-
