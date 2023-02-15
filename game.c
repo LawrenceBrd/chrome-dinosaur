@@ -14,8 +14,13 @@
 \date 2023-01-24
 */
 
-int test_run=0;
-int test_passed=0;
+int checkGame(int y, int x, int diY, int diX);
+int computeTime(int delayTime);
+void showdinosaur(int diY, int diX);
+int computePrize(int score, int usedPrize);
+
+int tests_run=0;
+int tests_passed=0;
 
 void test_checkGame() {
 	int oracolo=0;
@@ -32,19 +37,47 @@ void test_checkGame() {
 	mu_assert("ERRORE in funzione checkGame(), diY!=y",checkGame(-56,14,2,3)==oracolo);
 }
 
-void all_test() {
-	mu_run_test(test_checkGame);
+void test_computeTime() {
+	mu_assert("ERRORE in funzione computeTime(), (delayTime>=250000)-1000",computeTime(250000, 1000)==249000);
+	mu_assert("ERRORE in funzione computeTime(), (delayTime>=250000)-1000",computeTime(300000, 1000)==299000);
+	mu_assert("ERRORE in funzione computeTime(), (delayTime>=250000)-1000",computeTime(1800000, 1000)==1799000);
+	mu_assert("ERRORE in funzione computeTime(), (delayTime>=200000)-600",computeTime(230000, 600)==229400);
+	mu_assert("ERRORE in funzione computeTime(), (delayTime>=200000)-600",computeTime(200000, 600)==199400);
+	mu_assert("ERRORE in funzione computeTime(), (delayTime>=200000)-600",computeTime(249999, 600)==248999);
+	mu_assert("ERRORE in funzione computeTime(), (delayTime<200000)-200",computeTime(190000, 200)==189800);
+	mu_assert("ERRORE in funzione computeTime(), (delayTime<200000)-200",computeTime(180000, 200)==179800);
+	mu_assert("ERRORE in funzione computeTime(), (delayTime<200000)-200",computeTime(1000, 200)==800);
+	mu_assert("ERRORE in funzione computeTime(), (delayTime<200000)-200",computeTime(199999, 200)==199399);
 }
 
-int run_all_test(int argc, char **argv) {
+void test_computePrize() {
+	mu_assert("ERRORE in funzione computePrize(), score >= 20 && score <= 40 && usedPrize == 0",computePrize(10,0)==0);
+	mu_assert("ERRORE in funzione computePrize(), score >= 20 && score <= 40 && usedPrize == 0",computePrize(15,0)==0);
+	mu_assert("ERRORE in funzione computePrize(), score >= 20 && score <= 40 && usedPrize == 0",computePrize(30,0)==1);
+	mu_assert("ERRORE in funzione computePrize(), score >= 20 && score <= 40 && usedPrize == 0",computePrize(30,1)==0);
+	mu_assert("ERRORE in funzione computePrize(), score >= 60 && score <= 80 && usedPrize <= 1",computePrize(70,1)==1);
+	mu_assert("ERRORE in funzione computePrize(), score >= 60 && score <= 80 && usedPrize <= 1",computePrize(70,2)==0);
+	mu_assert("ERRORE in funzione computePrize(), score >= 100 && score <= 120 && usedPrize <= 2",computePrize(110,2)==0);
+	mu_assert("ERRORE in funzione computePrize(), score >= 100 && score <= 120 && usedPrize <= 2",computePrize(130,0)==0);
+	mu_assert("ERRORE in funzione computePrize(), score >= 100 && score <= 120 && usedPrize <= 2",computePrize(130,2)==1);
+	mu_assert("ERRORE in funzione computePrize(), score >= 20 && score <= 40 && usedPrize == 0",computePrize(10,3)==0);
+}
+
+void all_tests() {
+	mu_run_test(test_checkGame);
+	mu_run_test(test_computeTime);
+	mu_run_test(test_computePrize);
+}
+
+int run_all_tests(int argc, char **argv) {
 	if(argc<2 || strcmp(argv[1],"-test")!=0)
 	{
 		return -1;
 	}
 	printf("\nESEGUO I TEST\n");
-	all_test();
-	printf("\nTest eseguiti: %d\n",test_run);
-	printf("\nTest eseguiti con successo: %d\n",test_passed);
+	all_tests();
+	printf("\nTest eseguiti: %d\n",tests_run);
+	printf("\nTest eseguiti con successo: %d\n",tests_passed);
 }
 
 int checkGame(int y, int x, int diY, int diX) {
