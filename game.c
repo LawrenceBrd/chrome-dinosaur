@@ -14,10 +14,38 @@
 \date 2023-01-24
 */
 
-void all_test() {
-	
+int test_run=0;
+int test_passed=0;
+
+void test_checkGame() {
+	int oracolo=0;
+	mu_assert("ERRORE in funzione checkGame(), (diX+14)-x=4",checkGame(2,13,2,3)==oracolo);
+	mu_assert("ERRORE in funzione checkGame(), diY==y",checkGame(2,13,2,3)==oracolo);
+	mu_assert("ERRORE in funzione checkGame(), (diX+14)-x<4",checkGame(2,17,2,3)==oracolo);
+	mu_assert("ERRORE in funzione checkGame(), (diX+14)-x<4",checkGame(2,137,2,3)==oracolo);
+	mu_assert("ERRORE in funzione checkGame(), (diX+14)-x<4",checkGame(2,1000,2,3)==oracolo);
+	mu_assert("ERRORE in funzione checkGame(), (diX+14)-x<4",checkGame(2,34,2,3)==oracolo);
+	mu_assert("ERRORE in funzione checkGame(), (diX+14)-x<4",checkGame(2,25,2,3)==oracolo);
+	oracolo=1;
+	mu_assert("ERRORE in funzione checkGame(), diY!=y",checkGame(224,14,2,3)==oracolo);
+	mu_assert("ERRORE in funzione checkGame(), diY!=y",checkGame(1,14,2,3)==oracolo);
+	mu_assert("ERRORE in funzione checkGame(), diY!=y",checkGame(-56,14,2,3)==oracolo);
 }
 
+void all_test() {
+	mu_run_test(test_checkGame);
+}
+
+int run_all_test(int argc, char **argv) {
+	if(argc<2 || strcmp(argv[1],"-test")!=0)
+	{
+		return -1;
+	}
+	printf("\nESEGUO I TEST\n");
+	all_test();
+	printf("\nTest eseguiti: %d\n",test_run);
+	printf("\nTest eseguiti con successo: %d\n",test_passed);
+}
 
 int checkGame(int y, int x, int diY, int diX) {
 	if (diY == y) {
